@@ -1,0 +1,134 @@
+object burns
+{
+	var produccionEnergetica //int
+	var varillas =3//int
+	var contaminacion //bool
+	
+	method modificarProduccionEnergetica()
+	{
+		produccionEnergetica = varillas *0.1
+	}
+	
+	method produccionEnergetica()
+	{
+		return produccionEnergetica
+	}
+	
+	method modificarContaminacion ()
+	{
+		contaminacion  = varillas>20
+	}
+	method contaminacion()
+	{
+		return contaminacion
+	}
+}
+
+
+object exBosque
+{
+	var produccionEnergetica //int
+	var riquezaDelSuelo = 0.9 //int
+	var capacidadEnToneladas //int
+	var contaminacion = true
+	
+	method produccionEnergetica()
+	{
+		produccionEnergetica = 0.5 + capacidadEnToneladas * riquezaDelSuelo
+		
+	}
+	method contaminacion()
+	{
+		return contaminacion
+	}
+
+}
+
+object elSuspiro
+{
+	var turbinas =1//Int
+	var produccionDeTurbinas = 0.2 //Int
+	var produccionEnergetica 
+	var contaminacion = false 
+	
+
+	method modificarTurbina(unasTurbinas)
+	{
+		turbinas += unasTurbinas
+	}
+	
+	method turbinas()
+	{
+		return turbinas
+	}
+	method produccionEnergetica() 
+	{
+		produccionEnergetica = turbinas * produccionDeTurbinas
+		return produccionEnergetica 
+	} 
+	method contaminacion()
+	{
+		return contaminacion
+	}
+		
+}
+
+object albuquerque {
+	var caudal = 150
+	var central = hidro	
+	
+	method caudal() {
+		return caudal
+	}
+	
+	method centralMasProductora() {
+		return central
+	}
+}
+
+
+object springfield
+{
+	var velocidadVientos = 10
+	var riquezaDelSuelo = 0.9
+	var centrales = #{burns,exBosque,elSuspiro}
+	var suministro
+	var produccionEnergetica
+	var necesidad
+
+	
+	method centralesContaminantes () 
+	{
+		return centrales.filter({central => central.contaminacion()})
+		
+	}
+	
+	method suministro() {
+		suministro >= produccionEnergetica = true  
+	}
+
+	method cubrioNecesidad() {
+		return suministro > necesidad 
+	}
+
+	method estaAlHorno() {
+		return self.sonTodasContaminantes() ||
+			self.produccionDeContaminantes() > necesidad * 0.5
+	}
+
+	method centralMasProductora() {
+		return centrales.max({ central => central.produccion(self)})
+	}
+}
+
+	object region {
+
+	var ciudades = #{springfield, albuquerque}
+	
+	method centralesMasProductoras() {
+		return ciudades.map({ ciudad => ciudad.centralMasProductora() })
+	}
+}
+
+
+
